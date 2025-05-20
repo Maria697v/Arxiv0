@@ -1,0 +1,162 @@
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Архівні ресурси України</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #fdfaf6;
+      margin: 0;
+      padding: 2rem;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      color: #4a2c19;
+      margin-bottom: 1.5rem;
+    }
+    .links-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto 3rem;
+    }
+    .link-card {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      transition: transform 0.2s ease;
+      text-align: center;
+    }
+    .link-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    }
+    .link-card a {
+      text-decoration: none;
+      color: #8b5e3c;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+    .link-card a:hover {
+      text-decoration: underline;
+    }
+    .table-section {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    table, th, td {
+      border: 1px solid #ccc;
+    }
+    th, td {
+      padding: 0.75rem;
+      text-align: left;
+    }
+    th {
+      background-color: #eee;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 0.5rem;
+    }
+    .add-row-btn {
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      background-color: #8b5e3c;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .add-row-btn:hover {
+      background-color: #6f462a;
+    }
+  </style>
+</head>
+<body>
+  <h1>Оцифровані архіви України</h1>
+  <div class="links-container">
+    <div class="link-card"><a href="https://cdiak.archives.gov.ua/" target="_blank">ЦДІАК (Київ)</a></div>
+    <div class="link-card"><a href="https://cdial.archives.gov.ua/" target="_blank">ЦДІАЛ (Львів)</a></div>
+    <div class="link-card"><a href="https://archives.gov.ua/" target="_blank">Архівна служба України</a></div>
+    <div class="link-card"><a href="https://dako.archives.gov.ua/" target="_blank">ДА Київської обл.</a></div>
+    <div class="link-card"><a href="https://dach.cg.gov.ua/" target="_blank">ДА Чернігівської обл.</a></div>
+    <div class="link-card"><a href="http://dach.ds.archives.gov.ua/" target="_blank">ДА Черкаської обл.</a></div>
+    <div class="link-card"><a href="https://dars.archives.gov.ua/" target="_blank">ДА Рівненської обл.</a></div>
+    <div class="link-card"><a href="https://familysearch.org/" target="_blank">FamilySearch</a></div>
+    <div class="link-card"><a href="https://szukajwarchiwach.gov.pl/" target="_blank">Szukaj w Archiwach</a></div>
+    <div class="link-card"><a href="https://polona.pl/" target="_blank">Polona</a></div>
+    <div class="link-card"><a href="https://genealogyindexer.org/" target="_blank">Genealogy Indexer</a></div>
+    <div class="link-card"><a href="https://ukrfamily.com.ua/" target="_blank">UkrFamily</a></div>
+    <div class="link-card"><a href="https://vkraina.com/" target="_blank">Вкраїна</a></div>
+  </div>
+
+  <div class="table-section">
+    <h2>Ваші фонди та метрики</h2>
+    <table id="fundTable">
+      <thead>
+        <tr>
+          <th>Архів</th>
+          <th>Номер фонду</th>
+          <th>Роки</th>
+          <th>Опис</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><input type="text" placeholder="Напр. ЦДІАК"></td>
+          <td><input type="text" placeholder="Напр. 127"></td>
+          <td><input type="text" placeholder="1800–1860"></td>
+          <td><input type="text" placeholder="Метричні книги, ревізькі сказки..."></td>
+        </tr>
+      </tbody>
+    </table>
+    <button class="add-row-btn" onclick="addRow()">Додати рядок</button>
+  </div>
+
+  <script>
+    function addRow() {
+      const table = document.getElementById('fundTable').getElementsByTagName('tbody')[0];
+      const newRow = table.insertRow();
+      for (let i = 0; i < 4; i++) {
+        const newCell = newRow.insertCell(i);
+        newCell.innerHTML = '<input type="text">';
+      }
+    }
+
+    function exportTableToExcel(tableID, filename = 'архіви.xlsx') {
+      var dataType = 'application/vnd.ms-excel';
+      var tableSelect = document.getElementById(tableID);
+      var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+
+      var downloadLink = document.createElement("a");
+      document.body.appendChild(downloadLink);
+
+      downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+      downloadLink.download = filename;
+      downloadLink.click();
+    }
+  </script>
+
+  <div style="text-align:center;margin-top:20px;">
+    <button onclick="exportTableToExcel('fundTable')"
+            style="padding:10px 20px; background:#4a2c19; color:#fff; border:none; border-radius:5px; cursor:pointer;">
+      Експортувати в Excel
+    </button>
+  </div>
+</body>
+</html>
